@@ -26,9 +26,7 @@ android {
    
     namespace "com.example.shared_prefer"
     // Explicitly set compileSdkVersion
-    compileSdkVersion 34
-
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34  /*compileSdkVersion flutter.compileSdkVersion */
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -49,7 +47,9 @@ android {
         applicationId "com.example.shared_prefer"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+       
+       
+     minSdkVersion 21  /*minSdkVersion flutter.minSdkVersion */
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
