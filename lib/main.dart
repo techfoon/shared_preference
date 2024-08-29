@@ -36,17 +36,28 @@ class _AsyncAndAwaitState extends State<AsyncAndAwait> {
     SharedPreferences setDatapref = await SharedPreferences.getInstance();
 
     setDatapref.setString('datavalues', mycontroller.text);
+    getData();
   }
 
 //getDAta
   getData() async {
     SharedPreferences getDatapref = await SharedPreferences.getInstance();
 
-    datavalue = getDatapref.getString('datavalues');
-    setState(() {});
+    ////
+    setState(() {
+      datavalue = getDatapref.getString('datavalues');
+    });
   }
 
   TextEditingController mycontroller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+  ///
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,8 +72,7 @@ class _AsyncAndAwaitState extends State<AsyncAndAwait> {
               onPressed: () async {
                 await setData();
                 print(mycontroller.text.toString());
-
-                await getData();
+                //get
               },
               child: Text("click here"))
         ],
