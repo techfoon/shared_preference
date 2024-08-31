@@ -62,7 +62,8 @@ class _AsyncAndAwaitState extends State<AsyncAndAwait> {
                 await setData();
                 print(mycontroller.text.toString());
 
-                await getData();
+                await getData(); //ok
+                
               },
               child: Text("click here"))
         ],
