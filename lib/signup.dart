@@ -1,20 +1,7 @@
+
 import 'package:flutter/material.dart';
 
-
-void main() {
-  runApp(myApp());
-}
-
-class myApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: myAppDash(),
-    );
-  }
-}
-
-class myAppDash extends StatelessWidget {
+class Signup extends StatelessWidget {
   TextEditingController NameConroller = TextEditingController();
   TextEditingController PassController = TextEditingController();
 
@@ -22,8 +9,8 @@ class myAppDash extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("DashBoard"),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+        title: Text("SignUp Page"),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.login))],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -48,6 +35,18 @@ class myAppDash extends StatelessWidget {
               decoration: InputDecoration(
                   hintText: "Enter your PassWord",
                   label: Text("PassWord:"),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  )),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              controller: PassController,
+              decoration: InputDecoration(
+                  hintText: "Enter your PassWord",
+                  label: Text("Confirm PassWord:"),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
                   )),
