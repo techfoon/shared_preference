@@ -1,9 +1,46 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
+  String? username, userpass;
+
+  //bool? loginStatus;
   TextEditingController NameConroller = TextEditingController();
+
   TextEditingController PassController = TextEditingController();
+
+  TextEditingController ConfirmPassController = TextEditingController();
+
+  setData() async {
+    SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
+    mySharedInstance.setString('username', NameConroller.text);
+    mySharedInstance.setString('pass', PassController.text);
+    // mySharedInstance.setString('Confirmpass', ConfirmPassController.text);
+    getData();
+  }
+
+  getData() async {
+    SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
+
+    setState(() {
+      username = mySharedInstance.getString('username');
+      userpass = mySharedInstance.getString('pass');
+    });
+
+    //mySharedInstance.getString('Confirmpass');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +55,8 @@ class Signup extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text("$username"),
+            Text("$userpass"),
             TextField(
               controller: NameConroller,
               decoration: InputDecoration(
@@ -43,7 +82,7 @@ class Signup extends StatelessWidget {
               height: 20,
             ),
             TextField(
-              controller: PassController,
+              controller: ConfirmPassController,
               decoration: InputDecoration(
                   hintText: "Enter your PassWord",
                   label: Text("Confirm PassWord:"),
@@ -51,7 +90,11 @@ class Signup extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   )),
             ),
-            ElevatedButton(onPressed: () {}, child: Text("click here"))
+            ElevatedButton(
+                onPressed: () async {
+                  await setData();
+                },
+                child: Text("click here"))
           ],
         ),
       ),
