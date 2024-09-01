@@ -1,16 +1,46 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_prefer/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class myAppDash extends StatefulWidget {
- 
+class login extends StatefulWidget {
   @override
-  State<myAppDash> createState() => _myAppDashState();
+  State<login> createState() => _loginState();
 }
 
-class _myAppDashState extends State<myAppDash> {
+class _loginState extends State<login> {
+  String? username, userpass;
+  bool? loginStatus;
   TextEditingController NameConroller = TextEditingController();
 
   TextEditingController PassController = TextEditingController();
+
+  setData() async {
+    SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
+    if (NameConroller.text == username && PassController.text == userpassg) {
+      mySharedInstance.setBool('staus', true);
+    } else {
+      mySharedInstance.setBool('staus', false);
+    }
+
+    getData();
+  }
+
+  getData() async {
+    SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
+    setState(() {
+      username = mySharedInstance.getString('username');
+      userpass = mySharedInstance.getString('pass');
+      loginStatus = mySharedInstance.getBool('staus');
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement ini
+    // tState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +55,10 @@ class _myAppDashState extends State<myAppDash> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Text("$username"),
+            
+            Text("$userpass"),
+            Text("$loginStatus"),
             TextField(
               controller: NameConroller,
               decoration: InputDecoration(
@@ -46,7 +80,52 @@ class _myAppDashState extends State<myAppDash> {
                     borderRadius: BorderRadius.circular(5),
                   )),
             ),
-            ElevatedButton(onPressed: () {}, child: Text("click here"))
+            ElevatedButton(
+                onPressed: () {
+                  if (NameConroller.text == username &&
+                      PassController.text == userpass) {
+                    setData();
+
+                    showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Success'),
+                    content: const Text('You are logged in'),
+                    actions: <Widget>[
+                      /* TextButton(
+                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                        child: const Text('Cancel'),
+                      ),*/
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+                  } else {
+
+
+                    showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Alert'),
+                    content: const Text('Wrong Password'),
+                    actions: <Widget>[
+                      /* TextButton(
+                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                        child: const Text('Cancel'),
+                      ),*/
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+                  }
+                },
+                child: Text("click here"))
           ],
         ),
       ),

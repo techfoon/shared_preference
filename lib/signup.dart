@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_prefer/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
@@ -8,6 +9,7 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   String? username, userpass;
+  bool? loginStatus;
 
   //bool? loginStatus;
   TextEditingController NameConroller = TextEditingController();
@@ -30,6 +32,7 @@ class _SignupState extends State<Signup> {
     setState(() {
       username = mySharedInstance.getString('username');
       userpass = mySharedInstance.getString('pass');
+      loginStatus = mySharedInstance.getBool('status');
     });
 
     //mySharedInstance.getString('Confirmpass');
@@ -57,6 +60,7 @@ class _SignupState extends State<Signup> {
           children: [
             Text("$username"),
             Text("$userpass"),
+            Text("$loginStatus"),
             TextField(
               controller: NameConroller,
               decoration: InputDecoration(
@@ -92,7 +96,49 @@ class _SignupState extends State<Signup> {
             ),
             ElevatedButton(
                 onPressed: () async {
-                  await setData();
+                  if (PassController.text == ConfirmPassController.text) {
+                    await setData();
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text(
+                          'Cogrates!',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                        content: const Text('User registration success'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return login();
+                              }));
+                            },
+                            child: const Text('GoTo LoginPage'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Alert'),
+                        content: const Text(
+                            'Please check: PassWord and Confirm pass are not Same'),
+                        actions: <Widget>[
+                          /* TextButton(
+                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                        child: const Text('Cancel'),
+                      ),*/
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
                 child: Text("click here"))
           ],
