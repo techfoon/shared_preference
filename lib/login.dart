@@ -16,7 +16,7 @@ class _loginState extends State<login> {
 
   setData() async {
     SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
-    if (NameConroller.text == username && PassController.text == userpassg) {
+    if (NameConroller.text == username && PassController.text == userpass) {
       mySharedInstance.setBool('staus', true);
     } else {
       mySharedInstance.setBool('staus', false);
