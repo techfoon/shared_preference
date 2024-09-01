@@ -29,34 +29,37 @@ class AsyncAndAwait extends StatefulWidget {
 
 class _AsyncAndAwaitState extends State<AsyncAndAwait> {
   String? datavalue;
+  TextEditingController mycontroller = TextEditingController();
 
-  ///setDAta
+  ///setData
 
   setData() async {
-    SharedPreferences setDatapref = await SharedPreferences.getInstance();
+    SharedPreferences mydata = await SharedPreferences.getInstance();
 
-    setDatapref.setString('datavalues', mycontroller.text);
+    mydata.setString('data', mycontroller.text);
     getData();
   }
 
-//getDAta
-  getData() async {
-    SharedPreferences getDatapref = await SharedPreferences.getInstance();
+  //getData
 
-    ////
+  getData() async {
+    SharedPreferences mydata = await SharedPreferences.getInstance();
+
     setState(() {
-      datavalue = getDatapref.getString('datavalues');
+       datavalue= mydata.getString('data');
     });
+  
   }
 
-  TextEditingController mycontroller = TextEditingController();
+  //initState
 
   @override
   void initState() {
+    // TODO: implement initState
+  
     super.initState();
-    getData();
+      getData();
   }
-  ///
 
   @override
   Widget build(BuildContext context) {
