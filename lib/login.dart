@@ -1,18 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:shared_prefer/dashbord.dart';
 import 'package:shared_prefer/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:shared_prefer/components/appbar.dart';
 class login extends StatefulWidget {
   @override
-  State<login> createState() => _loginState();
+  State<login> createState() => loginState();
 }
 
-class _loginState extends State<login> {
-  String? username, userpass;
-  bool? loginStatus;
+class loginState extends State<login> {
   TextEditingController NameConroller = TextEditingController();
 
   TextEditingController PassController = TextEditingController();
+  String? username, userpass;
+  bool? loginStatus;
+  @override
+  void initState() {
+    // TODO: implement ini
+    // tState
+    super.initState();
+
+  
+    getData();
+  }
+
+ 
+   
+  
+    
+
+  
+
+  getData() async {
+    SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
+    setState(() {
+      username = mySharedInstance.getString('username');
+      userpass = mySharedInstance.getString('pass');
+      loginStatus = mySharedInstance.getBool('staus');
+    });
+
+     if (loginStatus == true) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return Dashboard();
+      }));
+    }
+  }
 
   setData() async {
     SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
@@ -25,30 +57,17 @@ class _loginState extends State<login> {
     getData();
   }
 
-  getData() async {
-    SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
-    setState(() {
-      username = mySharedInstance.getString('username');
-      userpass = mySharedInstance.getString('pass');
-      loginStatus = mySharedInstance.getBool('staus');
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement ini
-    // tState
-    super.initState();
-    getData();
-  }
+  // After getting the data, check the login status
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("DashBoard"),
+      appBar: CommonNavBar(title: "Home Page"),
+      
+      /*AppBar(
+        title: Text("LoginPage"),
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
-      ),
+      ),*/
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -56,7 +75,6 @@ class _loginState extends State<login> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text("$username"),
-            
             Text("$userpass"),
             Text("$loginStatus"),
             TextField(
@@ -87,42 +105,45 @@ class _loginState extends State<login> {
                     setData();
 
                     showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Success'),
-                    content: const Text('You are logged in'),
-                    actions: <Widget>[
-                      /* TextButton(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Success'),
+                        content: const Text('You are logged in'),
+                        actions: <Widget>[
+                          /* TextButton(
                         onPressed: () => Navigator.pop(context, 'Cancel'),
                         child: const Text('Cancel'),
                       ),*/
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, 'OK'),
-                        child: const Text('OK'),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('OK'),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
+                    );
                   } else {
-
-
                     showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Alert'),
-                    content: const Text('Wrong Password'),
-                    actions: <Widget>[
-                      /* TextButton(
-                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                        child: const Text('Cancel'),
-                      ),*/
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, 'OK'),
-                        child: const Text('OK'),
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Not Found'),
+                        content: const Text('Registar Now!'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return Signup();
+                              }));
+                            },
+                            child: const Text('REGISTOR NOW'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancel'),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
+                    );
                   }
                 },
                 child: Text("click here"))
