@@ -3,6 +3,7 @@ import 'package:shared_prefer/dashbord.dart';
 import 'package:shared_prefer/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_prefer/components/appbar.dart';
+
 class login extends StatefulWidget {
   @override
   State<login> createState() => loginState();
@@ -20,16 +21,8 @@ class loginState extends State<login> {
     // tState
     super.initState();
 
-  
     getData();
   }
-
- 
-   
-  
-    
-
-  
 
   getData() async {
     SharedPreferences mySharedInstance = await SharedPreferences.getInstance();
@@ -39,7 +32,7 @@ class loginState extends State<login> {
       loginStatus = mySharedInstance.getBool('staus');
     });
 
-     if (loginStatus == true) {
+    if (loginStatus == true) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return Dashboard();
       }));
@@ -62,12 +55,12 @@ class loginState extends State<login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonNavBar(title: "Home Page"),
-      
-      /*AppBar(
+      appBar: 
+
+      AppBar(
         title: Text("LoginPage"),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
-      ),*/
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.login))],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -130,7 +123,7 @@ class loginState extends State<login> {
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
-                              Navigator.push(context,
+                              Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) {
                                 return Signup();
                               }));
